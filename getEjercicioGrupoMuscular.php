@@ -1,4 +1,9 @@
 <?php
+// Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: *");
+
 require_once 'conexion.php';
 $grupoMuscular=$_GET['grupoMuscular'];
 // FETCH_OBJ

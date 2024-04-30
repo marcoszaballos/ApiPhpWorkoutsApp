@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 require_once 'conexion.php';
 // FETCH_OBJ
 $stmt = $mysql->prepare("SELECT * FROM DM_GRUPOS_MUSCULARES");

@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: *");
 require_once 'conexion.php';
 $userEmail=$_GET['userEmail'];
 // FETCH_OBJ
-$stmt = $mysql->prepare("SELECT DATE_FORMAT(ULTIMO_ENTRENO, '%d/%m/%Y') AS ULTIMO_ENTRENO FROM TB_HISTORICO_EJERCICIOS WHERE USUARIO = '".$userEmail."' GROUP BY DATE_FORMAT(ULTIMO_ENTRENO, '%d/%m/%Y') ORDER BY ULTIMO_ENTRENO DESC");
+$stmt = $mysql->prepare("SELECT DATE_FORMAT(ULTIMO_ENTRENO, '%d/%m/%Y') AS ULTIMO_ENTRENO FROM TB_HISTORICO_EJERCICIOS a WHERE USUARIO = '".$userEmail."' GROUP BY DATE_FORMAT(ULTIMO_ENTRENO, '%d/%m/%Y') ORDER BY a.ULTIMO_ENTRENO DESC");
 // Ejecutamos
 $stmt->execute();
 

@@ -13,6 +13,25 @@ if (isset($data['ejercicios']) && isset($data['email'])) {
         // Extraer el email del usuario y la lista de ejercicios
         $email = $data['email'];
         $ejercicios = $data['ejercicios'];
+
+        // Creas un array para almacenar los resultados
+        $resultados = array();
+
+        // Iteras sobre cada elemento de $ejercicios
+        foreach ($ejercicios as $ejercicio) {
+
+                // Construimos la consulta preparada
+                $consulta = $mysql->prepare("SELECT * FROM ejercicios.TB_EJERCICIOS_GRUPOS_MUSCULARES WHERE EJERCICIO = '".$ejercicio['EJERCICIO']."'");
+
+                // Ejecutamos la consulta
+                $consulta->execute();
+                // Iteramos sobre los resultados y los agregamos al array
+                while($fila = $consulta->fetch(PDO::FETCH_ASSOC)){
+                        $resultados[] = $fila;
+                }
+        }
+
+
         // Preparar la consulta SQL para insertar los ejercicios
         $stmt = $mysql->prepare("INSERT INTO TB_HISTORICO_EJERCICIOS (USUARIO, EJERCICIO, GRUPO_MUSCULAR, ULTIMO_ENTRENO) VALUES ( :email, :ejercicio, :grupoMuscular, NOW())");
                 // Verificar si la preparación de la consulta fue exitosa
@@ -22,7 +41,7 @@ if (isset($data['ejercicios']) && isset($data['email'])) {
                 }
 
         // Recorrer la lista de ejercicios y ejecutar el insert para cada uno
-                foreach ($ejercicios as $ejercicio) {
+                foreach ($resultados as $ejercicio) {
                         // Ejecutar el insert y verificar si ocurrió algún error
                         if (!$stmt->execute(array(':email' => $email, ':ejercicio' => $ejercicio['EJERCICIO'], ':grupoMuscular' => $ejercicio['MUSCULO']))) {
                                 // Obtener el mensaje de error específico
@@ -34,7 +53,7 @@ if (isset($data['ejercicios']) && isset($data['email'])) {
                 }
 
         // Enviar respuesta de éxito
-        echo json_encode(array('success' => $data['ejercicios']));
+        echo json_encode(array('success' => $resultados));
 } else {
         // Enviar respuesta de error si no se recibieron el email del usuario o la lista de ejercicios
         echo json_encode(array('success' => false,'message' => 'No se recibieron el email del usuario (' . $data['email'] . ') o la lista de ejercicios (' . $data['ejercicios'] . ')'));

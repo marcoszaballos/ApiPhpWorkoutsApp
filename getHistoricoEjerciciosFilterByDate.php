@@ -9,7 +9,7 @@ $fecha=$_GET['fecha'];
 $userEmail=$_GET['userEmail'];
 
 // FETCH_OBJ
-$stmt = $mysql->prepare("SELECT * FROM TB_HISTORICO_EJERCICIOS WHERE DATE(ULTIMO_ENTRENO) = STR_TO_DATE('".$fecha."', '%d/%m/%Y') AND USUARIO = '".$userEmail."' ORDER BY EJERCICIO ASC");                                              
+$stmt = $mysql->prepare("SELECT * FROM TB_HISTORICO_EJERCICIOS WHERE DATE(ULTIMO_ENTRENO) = STR_TO_DATE('".$fecha."', '%d/%m/%Y') AND USUARIO = '".$userEmail."' GROUP BY EJERCICIO ORDER BY EJERCICIO ASC");                                              
 // Ejecutamos
 $stmt->execute();
 

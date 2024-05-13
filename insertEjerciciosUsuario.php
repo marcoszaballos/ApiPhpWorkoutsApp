@@ -34,7 +34,7 @@ if (isset($data['ejercicios']) && isset($data['email'])) {
                 }
 
         // Enviar respuesta de éxito
-        echo json_encode(array('success' => true));
+        echo json_encode(array('success (' . $data['ejercicios'] . ')' => true));
 } else {
         // Enviar respuesta de error si no se recibieron el email del usuario o la lista de ejercicios
         echo json_encode(array('success' => false,'message' => 'No se recibieron el email del usuario (' . $data['email'] . ') o la lista de ejercicios (' . $data['ejercicios'] . ')'));
